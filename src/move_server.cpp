@@ -2,6 +2,7 @@
 #include "geometry_msgs/Twist.h"
 #include "tf/tf.h"
 #include "nav_msgs/Odometry.h"
+<<<<<<< HEAD
 #include <sstream>
 #include <tutorial/movetoAction.h>
 #include <actionlib/server/simple_action_server.h>
@@ -32,11 +33,51 @@ void execute(const tutorial::movetoGoalConstPtr& goal, Server* as)
 //whenever we receive a message over the odom topic, this callback is activated
 void odomCallback(const nav_msgs::Odometry &msg)
 {
+=======
+#include "image_transport/image_transport.h"
+#include <sstream>
+#include <tutorial/searchAction.h>
+#include <actionlib/server/simple_action_server.h>
+
+typedef actionlib::SimpleActionServer<tutorial::searchAction> Server;
+bool active = false;
+bool atPosition = false;
+bool objectFound = false;
+float currentX,currentY,targetX,targetY,yaw,lastYaw;
+
+void execute(const tutorial::searchGoalConstPtr& goal, Server* as)
+{
+	// Do lots of awesome groundbreaking robot stuff here
+	targetX = goal->x;
+	targetY = goal->y;
+	active = true;
+	atPosition = false;
+	objectFound = false;
+	usleep(200000);
+	while (active == true) usleep(100000);
+	tutorial::searchResult result;
+	result.found = objectFound;
+	
+	if (objectFound) as->setSucceeded(result); else as->setAborted(result);
+}
+	  
+  
+/**
+ * Make the robot turn a predefined angle that might be larger than 2pi
+ */
+
+//whenever we receive a message over the odom topic, this callback is activated
+void odomCallback(const nav_msgs::Odometry &msg)
+{
+	//robot rotation is in quaternions, we just need to retreve its yaw
+	float yawAngle = tf::getYaw(msg.pose.pose.orientation);
+>>>>>>> dad6ffd2bbea91a14d436f35154d9d434be55f2b
 	yaw = tf::getYaw(msg.pose.pose.orientation);
 	currentX = msg.pose.pose.position.x;
 	currentY = msg.pose.pose.position.y;
 }
 
+<<<<<<< HEAD
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "movetoServer");
@@ -54,6 +95,55 @@ int main(int argc, char **argv)
 	while (ros::ok())
 	{
 /*		if (active)
+=======
+//whenever we receive a message over the odom topic, this callback is activated
+void imageCallback(const sensor_msgs::ImageConstPtr& msg)
+{
+	//HINT
+	//msg->width  = WITDH  of the image in pixels
+	//msg->height = HEIGHT of the image in pixels
+	//msg->data[3*i+0] = red channel of ith pixel
+	//msg->data[3*i+1] = green channel of ith pixel
+	if (atPosition){
+		unsigned char r,g,b;
+		int pixelCount = 0;
+		for (int cnt = 0; cnt<msg->width*msg->height;cnt++)
+		{
+			r = msg->data[cnt*3+0];
+			g = msg->data[cnt*3+1];
+			b = msg->data[cnt*3+2];
+			if (r > g + 100 && r > b +100) pixelCount++;
+		}
+		ROS_INFO("PXC: %i",pixelCount);
+		if (pixelCount > 1000){
+		       	objectFound = true;
+			active = false;
+		}
+	}
+}
+
+int main(int argc, char **argv)
+{
+	ros::init(argc, argv, "searchServer");
+	ros::NodeHandle n;
+	ros::Subscriber subOdom = n.subscribe("odom", 1, odomCallback);
+	ros::Publisher commandRobot = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/navi", 1000);
+	/*special layer for image transport  */
+	image_transport::ImageTransport imageTransport(n);
+	image_transport::Subscriber subImage = imageTransport.subscribe("/camera/rgb/image_raw", 1, imageCallback);
+
+	ros::Rate loop_rate(10);
+	Server server(n, "search", boost::bind(&execute, _1, &server), false);
+	server.start();
+
+	//form the twist command
+	geometry_msgs::Twist command;
+	command.angular.z = 0.2;
+
+	while (ros::ok())
+	{
+		if (active)
+>>>>>>> dad6ffd2bbea91a14d436f35154d9d434be55f2b
 		{
 			if (atPosition){
 				command.linear.x =  0;
@@ -77,7 +167,11 @@ int main(int argc, char **argv)
 			commandRobot.publish(command);
 		}
 		ros::spinOnce();
+<<<<<<< HEAD
 		loop_rate.sleep();*/
+=======
+		loop_rate.sleep();
+>>>>>>> dad6ffd2bbea91a14d436f35154d9d434be55f2b
 	}
 
 	return 0;
