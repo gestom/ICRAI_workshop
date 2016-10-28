@@ -1,8 +1,7 @@
-float32 x  # Specify which dishwasher we want to use
-float32 y  # Specify which position to search 
+string color  #  specify the color to search for 
 ---
 # Define the result
 bool found 
 ---
 # Define a feedback message
-float32 percent_complete
+float32 percentComplete
