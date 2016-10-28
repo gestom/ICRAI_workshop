@@ -10,7 +10,10 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   nav_msgs 
-  image_transport 
+  image_transport
+  genmsg
+  actionlib_msgs 
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions
@@ -61,17 +64,17 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
+ add_action_files(
+   FILES
+   search.action
+ )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs
-# )
+ generate_messages(
+   DEPENDENCIES
+   std_msgs
+   actionlib_msgs
+ )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -136,6 +139,7 @@ add_executable(tutorial_command src/command.cpp)
 add_executable(tutorial_turn src/turn.cpp)
 add_executable(tutorial_move src/move.cpp)
 add_executable(tutorial_spot src/spot.cpp)
+add_executable(tutorial_spot_server src/spot_server.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -144,6 +148,7 @@ add_dependencies(tutorial_command ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_E
 add_dependencies(tutorial_turn ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(tutorial_move ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(tutorial_spot ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(tutorial_spot_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(tutorial_talker ${catkin_LIBRARIES})
@@ -151,6 +156,7 @@ target_link_libraries(tutorial_command ${catkin_LIBRARIES})
 target_link_libraries(tutorial_turn ${catkin_LIBRARIES})
 target_link_libraries(tutorial_move ${catkin_LIBRARIES})
 target_link_libraries(tutorial_spot ${catkin_LIBRARIES})
+target_link_libraries(tutorial_spot_server ${catkin_LIBRARIES})
 
 #############
 ## Install ##

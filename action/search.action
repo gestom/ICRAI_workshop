@@ -1,0 +1,8 @@
+float32 x  # Specify which dishwasher we want to use
+float32 y  # Specify which position to search 
+---
+# Define the result
+bool found 
+---
+# Define a feedback message
+float32 percent_complete
