@@ -142,6 +142,7 @@ add_executable(tutorial_move src/move.cpp)
 add_executable(tutorial_spot src/spot.cpp)
 add_executable(tutorial_spot_server src/spot_server.cpp)
 add_executable(tutorial_move_server src/move_server.cpp)
+add_executable(tutorial_robot_search src/robot_search.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -152,6 +153,7 @@ add_dependencies(tutorial_move ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPO
 add_dependencies(tutorial_spot ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(tutorial_spot_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(tutorial_move_server ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(tutorial_robot_search ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(tutorial_talker ${catkin_LIBRARIES})
@@ -161,6 +163,7 @@ target_link_libraries(tutorial_move ${catkin_LIBRARIES})
 target_link_libraries(tutorial_spot ${catkin_LIBRARIES})
 target_link_libraries(tutorial_spot_server ${catkin_LIBRARIES})
 target_link_libraries(tutorial_move_server ${catkin_LIBRARIES})
+target_link_libraries(tutorial_robot_search ${catkin_LIBRARIES})
 
 #############
 ## Install ##
