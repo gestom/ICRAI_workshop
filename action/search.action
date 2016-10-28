@@ -1,0 +1,7 @@
+string color  #  specify the color to search for 
+---
+# Define the result
+bool found 
+---
+# Define a feedback message
+float32 percentComplete
