@@ -6,6 +6,9 @@
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
  */
+
+//TASK 1: modify it to send arbitrary string that you specity on a command line
+
 int main(int argc, char **argv)
 {
 	/**
@@ -103,4 +106,3 @@ int main(int argc, char **argv)
 
 	return 0;
 }
-// %EndTag(FULLTEXT)%

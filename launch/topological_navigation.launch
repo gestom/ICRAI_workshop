@@ -1,0 +1,10 @@
+<launch>
+  <arg name="topological_map" default="icrai"/>
+  
+  <node name="robot_pose_publisher" pkg="tutorial" type="robot_pose_publisher.py"/>
+  <!--- Topological Navigation (includes monitored_navigation) -->
+  <include file="$(find topological_navigation)/launch/topological_navigation.launch">
+    <arg name="map" value="$(arg topological_map)"/>
+  </include>
+</launch>
+

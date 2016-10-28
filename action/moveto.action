@@ -1,0 +1,8 @@
+float32 x  # specity destination 
+float32 y  # specity destination 
+---
+# Define the result
+float32 distance 
+---
+# Define a feedback message
+float32 distance 

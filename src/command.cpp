@@ -3,33 +3,38 @@
 #include <sstream>
 
 /**
- * This tutorial demonstrates simple sending of messages over the ROS system.
+ * This tutorial demonstrates simple sending of messages over the ROS system - these messages should cause movement of the robot
  */
+//TASK 2: make the robot move using command line parameters
+//HINT: have a look what is "geometry_msgs::Twist", fill the 'command' accordingly and publish it
+
+int rate = 10;
+float countDown, forwardVelocity,angularVelocity;
+
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "talker");
 	ros::NodeHandle n;
-	ros::Publisher commandRobot = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/navi", 1000);
-	ros::Rate loop_rate(10);
+	ros::Rate loop_rate(rate);
 
-	//establish the countdown to determine how long time the robot is supposed to move
-	float count = 10*atof(argv[3]);
-	//form the twist command
-	geometry_msgs::Twist command;
-	//forward speed
-	command.linear.x = atof(argv[1]);
-	//turning speed
-	command.angular.z = atof(argv[2]);
-	//continue publishing until the given time elapses
-	while (ros::ok() && count > 0)
+	//initialise the publisher
+	ros::Publisher commandRobot = n.advertise<geometry_msgs::Twist>("/cmd_vel_mux/input/navi", 1000);
+
+	//read the params from the command line
+	forwardVelocity = atof(argv[1]);
+	angularVelocity = atof(argv[2]);
+	countDown = rate*atof(argv[3]);
+
+	//this struct needs to be filled accordingly and published repeatedly in the main loop
+	geometry_msgs::Twist command;	
+
+	//continue until the given time elapses
+	while (ros::ok() && countDown > 0)
 	{
-		commandRobot.publish(command);
 		ros::spinOnce();
 		loop_rate.sleep();
-		count--;
+		countDown--;
 	}
-
 
 	return 0;
 }
-// %EndTag(FULLTEXT)%

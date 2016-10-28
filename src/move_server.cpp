@@ -53,24 +53,31 @@ int main(int argc, char **argv)
 
 	while (ros::ok())
 	{
-		if (active)
+/*		if (active)
 		{
-			float x = targetX - currentX;
-			float y = targetY - currentY;
-			float dx = x*cos(yaw)+y*sin(yaw);
-			float dy = x*sin(yaw)-y*cos(yaw);
+			if (atPosition){
+				command.linear.x =  0;
+				command.angular.z = 0.3;
+				if (fabs(yaw-lastYaw) < 0.1) active = false;
+				ROS_INFO("Robot angle is: %f %f",yaw,lastYaw);
+			}else{
+				float x = targetX - currentX;
+				float y = targetY - currentY;
+				float dx = x*cos(yaw)+y*sin(yaw);
+				float dy = x*sin(yaw)-y*cos(yaw);
 
-			command.linear.x =  dx*0.3;
-			command.angular.z = -dy;
-			commandRobot.publish(command);
-			ros::spinOnce();
-			loop_rate.sleep();
-			distance = sqrt(dx*dx+dy*dy);
-			if (distance<0.1) active = false;
+				command.linear.x =  dx*0.3;
+				command.angular.z = -dy;
+				if (sqrt(dx*dx+dy*dy) < 0.1){
+				       	atPosition = true;
+					lastYaw = yaw - 0.2;
+				}
+				ROS_INFO("Robot distance is: %f",sqrt(dx*dx+dy*dy));
+			}
 			commandRobot.publish(command);
 		}
 		ros::spinOnce();
-		loop_rate.sleep();
+		loop_rate.sleep();*/
 	}
 
 	return 0;
