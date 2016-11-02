@@ -15,10 +15,15 @@ float currentX,currentY,targetX,targetY,yaw,distance;
 void execute(const tutorial::movetoGoalConstPtr& goal, Server* as)
 {
 	//TODO fill the goal here, activate robot movement and determine when to stop
-	
+	targetX = goal->x;
+	targetY = goal->y;
+	active = true;
+	usleep(500000);
+	while (distance > 0.1) usleep(100000);
 	tutorial::movetoResult result;
 	result.distance = distance;
 	as->setSucceeded(result);
+	active = false;
 }
   
 //whenever we receive a message over the odom topic, this callback is activated
@@ -48,6 +53,7 @@ int main(int argc, char **argv)
 		{
 			float x = targetX - currentX;
 			float y = targetY - currentY;
+			distance = sqrt(x*x+y*y);
 			float dx = x*cos(yaw)+y*sin(yaw);
 			float dy = x*sin(yaw)-y*cos(yaw);
 			command.linear.x =  dx*0.3;
